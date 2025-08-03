@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیگنال‌های ارز دیجیتال</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+        .signal-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .signal-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #6e48aa;
+        }
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .signal-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #9d50bb;
+        }
+        .signal-direction {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .buy {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        .sell {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        .signal-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #6e48aa;
+            margin-bottom: 5px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 768px) {
+            .signal-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="signal-container">
+            <h2>سیگنال‌های ارز دیجیتال</h2>
+            
+            {% if signals %}
+                {% for signal in signals %}
+                    {% if signal.strip() %}
+                        {% set parts = signal.strip().split("|") %}
+                        <div class="signal-card">
+                            <div class="signal-header">
+                                <div class="signal-title">{{ parts[3] }}</div>
+                                <div class="signal-direction {{ 'buy' if parts[4] == 'خرید' else 'sell' }}">
+                                    {{ parts[4] }}
+                                </div>
+                            </div>
+                            <div class="signal-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">اهرم:</div>
+                                    <div>{{ parts[0] }}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">حد سود:</div>
+                                    <div>{{ parts[1] }}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">حد ضرر:</div>
+                                    <div>{{ parts[2] }}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">نقطه ورود:</div>
+                                    <div>{{ parts[5] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info text-center">
+                    در حال حاضر هیچ سیگنالی موجود نیست.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
